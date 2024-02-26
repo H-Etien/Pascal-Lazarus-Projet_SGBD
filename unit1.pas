@@ -47,9 +47,11 @@ type
     procedure ComboBox1Select(Sender: TObject);
     procedure Edit3Change(Sender: TObject);
     procedure Edit5Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure Label1Click(Sender: TObject);
     procedure Label2Click(Sender: TObject);
     procedure Label4Click(Sender: TObject);
+    procedure Label7Click(Sender: TObject);
     procedure SQLQuery1AfterDelete(DataSet: TDataSet);
     procedure SQLQuery1AfterPost(DataSet: TDataSet);
     procedure RefreshSQLQuery1 ();
@@ -74,7 +76,7 @@ implementation
 procedure TForm1.BT_ConnectClick(Sender: TObject);
 begin
 
-  MySQL56Connection1.DatabaseName:='bibliotest';
+  MySQL56Connection1.DatabaseName:='proprio';
   MySQL56Connection1.UserName:='root';
   // Tentative de connexion à la base de données bibliotest
   MySQL56Connection1.Open;
@@ -83,12 +85,12 @@ begin
      ShowMessage ('Connexion échouée !'); exit;
     end;
   Label1.Caption:='Connecté';
-  // Affichage de la table auteurs dans le 1er DBGrid
-   SQLQuery1.SQL.Text:= 'SELECT * FROM auteurs';
+  // Affichage de la table proprietaire dans le 1er DBGrid
+   SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire';
    SQLQuery1.Open;
 
    Combobox1.Items.Add('Tous');
-   SQLQuery2.SQL.Text := 'SELECT DISTINCT nationalité FROM auteurs';
+   SQLQuery2.SQL.Text := 'SELECT DISTINCT domicile FROM proprietaire';
    SQLQuery2.Open;
    SQLQuery2.First;
    while(not SQLQuery2.EOF) do
@@ -114,16 +116,16 @@ end;
 
 procedure TForm1.BT_InsertClick(Sender: TObject);
 
-     var nom, prenom, nationalite, annee_naiss : string;
+     var nom, prenom, domicile, annee_naiss : string;
        begin
 
          nom := quotedstr(Edit1.Text);
          prenom := QuotedStr(Edit2.Text);
-         nationalite := QuotedStr(Edit3.Text);
+         domicile := QuotedStr(Edit3.Text);
          annee_naiss := Edit4.Text;
          SQLTransaction1.commit;
          SQlTransaction1.StartTransaction;
-         MySQL56Connection1.ExecuteDirect('insert into auteurs(nom,prénom,nationalité,année_naiss) values ('+nom+','+prenom+','+nationalite+','+annee_naiss+')');
+         MySQL56Connection1.ExecuteDirect('insert into proprietaire(nom,prénom,domicile,année_naiss) values ('+nom+','+prenom+','+domicile+','+annee_naiss+')');
          SQLTransaction1.Commit;
 
          RefreshSQLQuery1;
@@ -151,9 +153,9 @@ procedure TForm1.ComboBox1Select(Sender: TObject);
 begin
   SQLQuery1.Close;
   if (Combobox1.Text='Tous') then
-     SQLQuery1.SQL.Text:= 'SELECT * FROM auteurs'
+     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire'
   else
-     SQLQuery1.SQL.Text:= 'SELECT * FROM auteurs WHERE nationalité="'+ComboBox1.Text+'"';
+     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire WHERE domicile="'+ComboBox1.Text+'"';
   SQLQuery1.Open;
 end;
 
@@ -163,6 +165,11 @@ begin
 end;
 
 procedure TForm1.Edit5Change(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
 begin
 
 end;
@@ -178,6 +185,11 @@ begin
 end;
 
 procedure TForm1.Label4Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Label7Click(Sender: TObject);
 begin
 
 end;
@@ -202,7 +214,7 @@ end;
 procedure TForm1.RefreshSQLQuery1 ();
   begin
    SQLQuery1.Close;
-   SQLQuery1.SQL.Text:= 'SELECT * FROM auteurs';
+   SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire';
    SQLQuery1.Open;
   end;
 
@@ -210,7 +222,7 @@ procedure TForm1.RefreshCombobox1();
   begin
    Combobox1.Items.Clear;;
    Combobox1.Items.Add('Tous');
-   SQLQuery2.SQL.Text := 'SELECT DISTINCT nationalité FROM auteurs';
+   SQLQuery2.SQL.Text := 'SELECT DISTINCT domicile FROM proprietaire';
    SQLQuery2.Open;
    SQLQuery2.First;
    while(not SQLQuery2.EOF) do
