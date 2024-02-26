@@ -1,0 +1,213 @@
+object Form1: TForm1
+  Left = 403
+  Height = 368
+  Top = 475
+  Width = 972
+  Caption = 'Form1'
+  ClientHeight = 368
+  ClientWidth = 972
+  LCLVersion = '1.6.2.0'
+  object DBGrid1: TDBGrid
+    Left = 8
+    Height = 188
+    Top = 128
+    Width = 736
+    Anchors = [akTop, akLeft, akRight]
+    AutoEdit = False
+    AutoFillColumns = True
+    Color = clWindow
+    Columns = <>
+    TabOrder = 0
+  end
+  object BT_Connect: TButton
+    Left = 808
+    Height = 25
+    Top = 16
+    Width = 75
+    Caption = 'Connect'
+    OnClick = BT_ConnectClick
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 712
+    Height = 15
+    Top = 56
+    Width = 79
+    Caption = 'Non-Connecté'
+    ParentColor = False
+  end
+  object BT_Insert: TButton
+    Left = 885
+    Height = 25
+    Top = 328
+    Width = 75
+    Caption = 'Insert'
+    OnClick = BT_InsertClick
+    TabOrder = 2
+  end
+  object Edit1: TEdit
+    Left = 880
+    Height = 23
+    Top = 168
+    Width = 80
+    TabOrder = 3
+  end
+  object Edit2: TEdit
+    Left = 880
+    Height = 23
+    Top = 208
+    Width = 80
+    TabOrder = 4
+  end
+  object Edit3: TEdit
+    Left = 880
+    Height = 23
+    Top = 248
+    Width = 80
+    TabOrder = 5
+  end
+  object Edit4: TEdit
+    Left = 880
+    Height = 23
+    Top = 288
+    Width = 80
+    TabOrder = 6
+  end
+  object Label2: TLabel
+    Left = 760
+    Height = 15
+    Top = 168
+    Width = 27
+    Caption = 'Nom'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 760
+    Height = 15
+    Top = 208
+    Width = 42
+    Caption = 'Prénom'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 760
+    Height = 15
+    Top = 248
+    Width = 58
+    Caption = 'Nationalité'
+    ParentColor = False
+  end
+  object Label5: TLabel
+    Left = 760
+    Height = 15
+    Top = 288
+    Width = 104
+    Caption = 'Année de naissance'
+    ParentColor = False
+  end
+  object DBNavigator1: TDBNavigator
+    Left = 16
+    Height = 25
+    Top = 88
+    Width = 441
+    BevelOuter = bvNone
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.EnlargeVertical = crsScaleChilds
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 100
+    ClientHeight = 25
+    ClientWidth = 441
+    DataSource = DataSource1
+    Options = []
+    TabOrder = 7
+  end
+  object Label6: TLabel
+    Left = 760
+    Height = 15
+    Top = 128
+    Width = 13
+    Caption = 'Id:'
+    ParentColor = False
+  end
+  object Edit5: TEdit
+    Left = 880
+    Height = 23
+    Top = 128
+    Width = 80
+    TabOrder = 8
+  end
+  object BT_Afficher: TButton
+    Left = 885
+    Height = 25
+    Top = 88
+    Width = 75
+    Caption = 'Afficher'
+    OnClick = BT_AfficherClick
+    TabOrder = 9
+  end
+  object ComboBox1: TComboBox
+    Left = 624
+    Height = 23
+    Top = 90
+    Width = 100
+    ItemHeight = 15
+    OnSelect = ComboBox1Select
+    TabOrder = 10
+  end
+  object Label7: TLabel
+    Left = 552
+    Height = 15
+    Top = 96
+    Width = 64
+    Caption = 'Nationalité :'
+    ParentColor = False
+  end
+  object MySQL56Connection1: TMySQL56Connection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'biblioaccents'
+    KeepConnection = False
+    Transaction = SQLTransaction1
+    UserName = 'root'
+    CharSet = 'utf8'
+    HostName = 'localhost'
+    LogEvents = []
+    Options = []
+    left = 72
+    top = 10
+  end
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Database = MySQL56Connection1
+    Options = []
+    left = 224
+    top = 16
+  end
+  object SQLQuery1: TSQLQuery
+    FieldDefs = <>
+    AfterDelete = SQLQuery1AfterDelete
+    AfterPost = SQLQuery1AfterPost
+    Database = MySQL56Connection1
+    Transaction = SQLTransaction1
+    Options = []
+    Params = <>
+    left = 360
+    top = 16
+  end
+  object DataSource1: TDataSource
+    DataSet = SQLQuery1
+    left = 488
+    top = 16
+  end
+  object SQLQuery2: TSQLQuery
+    FieldDefs = <>
+    Database = MySQL56Connection1
+    Transaction = SQLTransaction1
+    Options = []
+    Params = <>
+    left = 576
+    top = 16
+  end
+end
