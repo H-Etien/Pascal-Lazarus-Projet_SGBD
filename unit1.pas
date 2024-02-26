@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, mysql56conn, sqldb, db, FileUtil, Forms, Controls,
-  Graphics, Dialogs, DBGrids, StdCtrls, DbCtrls, Buttons,
+  Graphics, Dialogs, DBGrids, StdCtrls, DbCtrls, Buttons, ComCtrls,
   Unit4;
 
 type
@@ -14,26 +14,37 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    BitBtn1: TBitBtn;
+    BT_Afficher1: TButton;
     BT_Connect: TButton;
     BT_Insert: TButton;
     BT_Afficher: TButton;
     ComboBox1: TComboBox;
     DataSource1: TDataSource;
     DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
     DBNavigator1: TDBNavigator;
     Edit1: TEdit;
+    Edit10: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
     Edit4: TEdit;
     Edit5: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
     MySQL56Connection1: TMySQL56Connection;
     SQLQuery1: TSQLQuery;
     SQLQuery2: TSQLQuery;
@@ -51,10 +62,12 @@ type
     procedure Label1Click(Sender: TObject);
     procedure Label2Click(Sender: TObject);
     procedure Label4Click(Sender: TObject);
+    procedure Label6Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
+    procedure Label8Click(Sender: TObject);
     procedure SQLQuery1AfterDelete(DataSet: TDataSet);
     procedure SQLQuery1AfterPost(DataSet: TDataSet);
-    procedure RefreshSQLQuery1 ();
+    procedure RefreshSQLQuery1();
     procedure RefreshCombobox1();
 
   private
@@ -78,7 +91,7 @@ begin
 
   MySQL56Connection1.DatabaseName:='proprio';
   MySQL56Connection1.UserName:='root';
-  // Tentative de connexion à la base de données bibliotest
+  // Tentative de connexion à la base de données proprio
   MySQL56Connection1.Open;
   if Not MySQL56Connection1.Connected then
     begin
@@ -106,12 +119,13 @@ begin
   DBGrid1.DataSource:=DataSource1;
   SQLQuery1.Open;
 
+  Form4.Show;
 
 end;
 
 procedure TForm1.BitBtn1Click(Sender: TObject);
 begin
-  Form4.Show;
+
 end;
 
 procedure TForm1.BT_InsertClick(Sender: TObject);
@@ -189,7 +203,17 @@ begin
 
 end;
 
+procedure TForm1.Label6Click(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.Label7Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.Label8Click(Sender: TObject);
 begin
 
 end;
@@ -211,7 +235,7 @@ begin
 
 end;
 
-procedure TForm1.RefreshSQLQuery1 ();
+procedure TForm1.RefreshSQLQuery1();
   begin
    SQLQuery1.Close;
    SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire';
@@ -220,7 +244,7 @@ procedure TForm1.RefreshSQLQuery1 ();
 
 procedure TForm1.RefreshCombobox1();
   begin
-   Combobox1.Items.Clear;;
+   Combobox1.Items.Clear;
    Combobox1.Items.Add('Tous');
    SQLQuery2.SQL.Text := 'SELECT DISTINCT domicile FROM proprietaire';
    SQLQuery2.Open;

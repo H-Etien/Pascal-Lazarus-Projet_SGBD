@@ -1,18 +1,19 @@
 object Form1: TForm1
-  Left = 1410
-  Height = 485
-  Top = 356
-  Width = 1215
+  Left = 1752
+  Height = 826
+  Top = 246
+  Width = 1227
   Caption = 'Form1'
-  ClientHeight = 485
-  ClientWidth = 1215
+  ClientHeight = 826
+  ClientWidth = 1227
   DesignTimePPI = 120
+  OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
   object DBGrid1: TDBGrid
     Left = 10
     Height = 235
     Top = 160
-    Width = 920
+    Width = 932
     Anchors = [akTop, akLeft, akRight]
     AutoEdit = False
     AutoFillColumns = True
@@ -42,9 +43,9 @@ object Form1: TForm1
     OnClick = Label1Click
   end
   object BT_Insert: TButton
-    Left = 1104
+    Left = 1100
     Height = 31
-    Top = 410
+    Top = 408
     Width = 94
     Caption = 'Insert'
     OnClick = BT_InsertClick
@@ -125,7 +126,7 @@ object Form1: TForm1
   object DBNavigator1: TDBNavigator
     Left = 20
     Height = 31
-    Top = 110
+    Top = 112
     Width = 551
     BevelOuter = bvNone
     ChildSizing.EnlargeHorizontal = crsScaleChilds
@@ -145,10 +146,11 @@ object Form1: TForm1
     Left = 950
     Height = 20
     Top = 160
-    Width = 16
-    Caption = 'Id:'
+    Width = 15
+    Caption = 'ID'
     ParentColor = False
     ParentFont = False
+    OnClick = Label6Click
   end
   object Edit5: TEdit
     Left = 1100
@@ -184,25 +186,125 @@ object Form1: TForm1
     Left = 664
     Height = 20
     Top = 120
-    Width = 81
-    Caption = 'Nationalité :'
+    Width = 60
+    Caption = 'Domicile'
     ParentColor = False
     ParentFont = False
     OnClick = Label7Click
   end
-  object BitBtn1: TBitBtn
-    Left = 616
-    Height = 38
-    Top = 432
-    Width = 94
-    Caption = 'BitBtn1'
-    OnClick = BitBtn1Click
+  object DBGrid2: TDBGrid
+    Left = 8
+    Height = 203
+    Top = 480
+    Width = 928
+    Color = clWindow
+    Columns = <>
     TabOrder = 11
   end
+  object Label8: TLabel
+    Left = 950
+    Height = 20
+    Top = 480
+    Width = 33
+    Caption = 'Nom'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Label9: TLabel
+    Left = 950
+    Height = 20
+    Top = 520
+    Width = 60
+    Caption = 'Domicile'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Label10: TLabel
+    Left = 950
+    Height = 20
+    Top = 560
+    Width = 68
+    Caption = 'Commune'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Label11: TLabel
+    Left = 950
+    Height = 20
+    Top = 600
+    Width = 24
+    Caption = 'Prix'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Label12: TLabel
+    Left = 950
+    Height = 20
+    Top = 640
+    Width = 66
+    Caption = 'Superficie'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Edit6: TEdit
+    Left = 1094
+    Height = 28
+    Top = 472
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 12
+  end
+  object Edit7: TEdit
+    Left = 1094
+    Height = 28
+    Top = 512
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 13
+  end
+  object Edit8: TEdit
+    Left = 1094
+    Height = 28
+    Top = 552
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 14
+  end
+  object Edit9: TEdit
+    Left = 1094
+    Height = 28
+    Top = 592
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 15
+  end
+  object Edit10: TEdit
+    Left = 1094
+    Height = 28
+    Top = 632
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 16
+  end
+  object BT_Afficher1: TButton
+    Left = 950
+    Height = 31
+    Top = 696
+    Width = 94
+    Caption = 'Recherche'
+    OnClick = BT_AfficherClick
+    ParentFont = False
+    TabOrder = 17
+  end
   object MySQL56Connection1: TMySQL56Connection
-    Connected = False
+    Connected = True
     LoginPrompt = False
-    DatabaseName = 'biblioaccents'
+    DatabaseName = 'proprio'
     KeepConnection = False
     Transaction = SQLTransaction1
     UserName = 'root'
@@ -214,7 +316,7 @@ object Form1: TForm1
     top = 13
   end
   object SQLTransaction1: TSQLTransaction
-    Active = False
+    Active = True
     Database = MySQL56Connection1
     left = 280
     top = 20
