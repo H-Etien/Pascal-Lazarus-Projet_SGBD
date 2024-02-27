@@ -98,8 +98,8 @@ begin
 end;
 
 procedure TForm4.BT_InsertClick(Sender: TObject);
-begin
-       var nom, prenom, domicile, annee_naiss : string;
+
+var nom, prenom, domicile, annee_naiss : string;
        begin
 
          nom := quotedstr(Edit1.Text);
@@ -113,12 +113,12 @@ begin
 
          RefreshSQLQuery1;
          RefreshCombobox1;
-       end;
-end;
+         end;
+
 
 procedure TForm4.ComboBox1Change(Sender: TObject);
 begin
-
+       ShowMessage ('Connexion échouée !'); exit;
 end;
 
 procedure TForm4.ComboBox1Select(Sender: TObject);

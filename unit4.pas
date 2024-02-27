@@ -118,7 +118,12 @@ var nom, prenom, domicile, annee_naiss : string;
 
 procedure TForm4.ComboBox1Change(Sender: TObject);
 begin
-
+        SQLQuery1.Close;
+  if (Combobox1.Text='Tous') then
+     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire'
+  else
+     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire WHERE domicile="'+ComboBox1.Text+'"';
+  SQLQuery1.Open;
 end;
 
 procedure TForm4.ComboBox1Select(Sender: TObject);
