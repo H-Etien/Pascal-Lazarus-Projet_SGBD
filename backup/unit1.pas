@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, mysql56conn, sqldb, db, FileUtil, Forms, Controls,
-  Graphics, Dialogs, DBGrids, StdCtrls, DbCtrls, Buttons, ComCtrls,
+  Graphics, Dialogs, DBGrids, StdCtrls, DbCtrls, Buttons, ComCtrls, ExtCtrls,
   Unit4;
 
 type
@@ -17,8 +17,9 @@ type
     BT_Afficher1: TButton;
     BT_Connect: TButton;
     BT_Insert: TButton;
-    BT_Afficher: TButton;
     Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
     ComboBox1: TComboBox;
     DataSource1: TDataSource;
     DataSource2: TDataSource;
@@ -62,9 +63,14 @@ type
     procedure BT_InsertClick(Sender: TObject);
     procedure BT_AfficherClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
     procedure Edit3Change(Sender: TObject);
+    procedure Edit4Change(Sender: TObject);
     procedure Edit5Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Label1Click(Sender: TObject);
@@ -77,6 +83,9 @@ type
     procedure SQLQuery1AfterPost(DataSet: TDataSet);
     procedure RefreshSQLQuery1();
     procedure RefreshCombobox1();
+
+    procedure isEditEmptyForAdding;
+    procedure isEditEmptyForDelete;
 
   private
     { private declarations }
@@ -160,6 +169,43 @@ procedure TForm1.BT_InsertClick(Sender: TObject);
          RefreshCombobox1;
        end;
 
+
+procedure TForm1.Button2Click(Sender: TObject);
+     var ID, nom, prenom, domicile, annee_naiss : string;
+begin
+         ID := (Edit5.Text);
+         nom := quotedstr(Edit1.Text);
+         prenom := QuotedStr(Edit2.Text);
+         domicile := QuotedStr(Edit3.Text);
+         annee_naiss := Edit4.Text;
+         SQLTransaction1.commit;
+         SQlTransaction1.StartTransaction;
+         MySQL56Connection1.ExecuteDirect('DELETE FROM proprietaire WHERE proprietaire.proprio_id ='+ID+' and  proprietaire.nom = '+nom+' and proprietaire.prénom = '+prenom+' and proprietaire.domicile = '+domicile+' and proprietaire.année_naiss = '+annee_naiss);
+         SQLTransaction1.Commit;
+
+         RefreshSQLQuery1;
+         RefreshCombobox1;
+
+         Edit5.Text := '';
+         Edit1.Text := '';
+         Edit2.Text := '';
+         Edit3.Text := '';
+         Edit4.Text := '';
+
+         Button2.Enabled := False;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+          Edit5.Text := DBGrid1.Columns[0].Field.Text;
+          Edit1.Text := DBGrid1.Columns[1].Field.Text;
+          Edit2.Text := DBGrid1.Columns[2].Field.Text;
+          Edit3.Text := DBGrid1.Columns[3].Field.Text;
+          Edit4.Text := DBGrid1.Columns[4].Field.Text;
+
+          Button2.Enabled := True;
+end;
+
 procedure TForm1.BT_AfficherClick(Sender: TObject);
 
           var nom, domicile, commune, prixMin, prixMax, superficieMin, superficieMax :string;
@@ -212,9 +258,6 @@ procedure TForm1.BT_AfficherClick(Sender: TObject);
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-     SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
-     SQLQuery3.Open;
-
      Edit6.Text := '';
      Edit7.Text := '';
      Edit8.Text := '';
@@ -222,7 +265,12 @@ begin
      Edit10.Text := '';
      Edit11.Text := '';
      Edit12.Text := '';
+
+     SQLQuery3.Close;
+     SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
+     SQLQuery3.Open;
 end;
+
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
 begin
@@ -239,14 +287,34 @@ begin
   SQLQuery1.Open;
 end;
 
+procedure TForm1.Edit1Change(Sender: TObject);
+begin
+  isEditEmptyForAdding();
+  isEditEmptyForDelete();
+end;
+
+procedure TForm1.Edit2Change(Sender: TObject);
+begin
+  isEditEmptyForAdding();
+  isEditEmptyForDelete();
+end;
+
 procedure TForm1.Edit3Change(Sender: TObject);
 begin
+    isEditEmptyForAdding();
+    isEditEmptyForDelete();
+end;
 
+procedure TForm1.Edit4Change(Sender: TObject);
+begin
+  isEditEmptyForAdding();
+  isEditEmptyForDelete();
 end;
 
 procedure TForm1.Edit5Change(Sender: TObject);
 begin
-
+   isEditEmptyForAdding();
+   isEditEmptyForDelete();
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -324,6 +392,48 @@ procedure TForm1.RefreshCombobox1();
 
   end;
 
+
+
+//Si problème avec Edit
+//Edit1 and Edit2 exist within the context of the class TForm1. Several instances of this class can exist.
+//Therefore you must always specify the instance to which Edit1 and Edit2 belong. Since your class is probably instantiated as Form1 you must mention Form1.Edit1 and Form1.Edit2.
+procedure TForm1.isEditEmptyForAdding;
+
+          var ID, nom, prenom, domicile, annee_naiss : string;
+  begin
+  ID := (Edit5.Text);
+  nom := quotedstr(Edit1.Text);
+  prenom := QuotedStr(Edit2.Text);
+  domicile := QuotedStr(Edit3.Text);
+  annee_naiss := Edit4.Text;
+   if (     (ID = '')  or
+          (nom = '')  or
+          (prenom = '')  or
+          (domicile = '')  or
+          (annee_naiss = '')
+      ) then  BT_Insert.Enabled := False
+   else
+    BT_Insert.Enabled := True;
+
+  end;
+
+procedure TForm1.isEditEmptyForDelete;
+
+          var nom, prenom, domicile, annee_naiss : string;
+  begin
+  nom := quotedstr(Edit1.Text);
+  prenom := QuotedStr(Edit2.Text);
+  domicile := QuotedStr(Edit3.Text);
+  annee_naiss := Edit4.Text;
+   if (   (nom = '')  or
+          (prenom = '')  or
+          (domicile = '')  or
+          (annee_naiss = '')
+      ) then  BT_Insert.Enabled := False
+   else
+    BT_Insert.Enabled := True;
+
+  end;
 
 end.
 
