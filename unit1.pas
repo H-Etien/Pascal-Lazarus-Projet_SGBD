@@ -18,13 +18,17 @@ type
     BT_Connect: TButton;
     BT_Insert: TButton;
     BT_Afficher: TButton;
+    Button1: TButton;
     ComboBox1: TComboBox;
     DataSource1: TDataSource;
+    DataSource2: TDataSource;
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     DBNavigator1: TDBNavigator;
     Edit1: TEdit;
     Edit10: TEdit;
+    Edit11: TEdit;
+    Edit12: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
     Edit4: TEdit;
@@ -37,6 +41,8 @@ type
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -48,12 +54,14 @@ type
     MySQL56Connection1: TMySQL56Connection;
     SQLQuery1: TSQLQuery;
     SQLQuery2: TSQLQuery;
+    SQLQuery3: TSQLQuery;
 
     SQLTransaction1: TSQLTransaction;
     procedure BitBtn1Click(Sender: TObject);
     procedure BT_ConnectClick(Sender: TObject);
     procedure BT_InsertClick(Sender: TObject);
     procedure BT_AfficherClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
     procedure Edit3Change(Sender: TObject);
@@ -112,11 +120,17 @@ begin
       SQLQuery2.Next;
      end;
    SQLQuery2.Close;
+   SQLQuery2.Open;
 
-    SQLQuery2.Open;
+   //Affichage dans la 2er Grid
+   SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
+   SQLQuery3.Open;
 
   Datasource1.Dataset:=SQLQuery1;
+  Datasource2.Dataset:=SQLQuery3;
+
   DBGrid1.DataSource:=DataSource1;
+  DBGrid2.DataSource:=DataSource2;
   SQLQuery1.Open;
 
   Form4.Show;
@@ -148,15 +162,68 @@ procedure TForm1.BT_InsertClick(Sender: TObject);
 
 procedure TForm1.BT_AfficherClick(Sender: TObject);
 
+          var nom, domicile, commune, prixMin, prixMax, superficieMin, superficieMax :string;
+          var firstRequete, lastRequete, requeteSQL : string;
+
        begin
-           Edit5.Text := DBGrid1.Columns[0].Field.Text;
-           Edit1.Text := DBGrid1.Columns[1].Field.Text;
-           Edit2.Text := DBGrid1.Columns[2].Field.Text;
-           Edit3.Text := DBGrid1.Columns[3].Field.Text;
-           Edit4.Text := DBGrid1.Columns[4].Field.Text;
+         //si rien dans la barre de recherche
+         if((Edit6.Text = '')  and
+            (Edit7.Text = '')  and
+            (Edit8.Text = '')  and
+            (Edit9.Text = '')  and
+            (Edit10.Text = '') and
+            (Edit11.Text = '') and
+            (Edit12.Text = ''))
+            then
+                SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
+                SQLQuery3.Open;
+
+         if(Edit6.Text = '') then   nom := '%'
+         else                       nom:=  '%'+Edit6.Text+'%';
+
+         if(Edit7.Text = '') then   domicile := '%'
+         else                       domicile :=  '%'+Edit7.Text+'%';
+
+         if(Edit8.Text = '') then   commune := '%'
+         else                       commune :=  '%'+Edit8.Text+'%';
+
+         if(Edit9.Text = '') then   prixMin := '0'
+         else                       prixMin := Edit9.Text;
+
+         if(Edit10.Text = '') then  prixMax := '99999999'
+         else                       prixMax := Edit10.Text;
+
+         if(Edit11.Text = '') then  superficieMin := '0'
+         else                       superficieMin := Edit11.Text;
+
+         if(Edit12.Text = '') then  superficieMax := '99999999'
+         else                       superficieMax := Edit12.Text;
+
+         firstRequete :=  'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id WHERE p.nom LIKE "';
+         lastRequete := '"';
+
+         requeteSQL :=  firstRequete + nom +'" AND p.domicile LIKE "'+ domicile + '" AND b.lieu LIKE "' + commune + '" AND b.prix >= "' + prixMin + '" AND b.prix <= "' + prixMax + '" AND b.superficie >= "' + superficieMin + '" AND b.superficie <= "' + superficieMax + lastRequete;
+        SQLQuery3.Close;
+          SQLQuery3.SQL.Text:= requeteSQL;
+        SQLQuery3.Open;
 
 
        end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+     Edit6.Text := '';
+     Edit7.Text := '';
+     Edit8.Text := '';
+     Edit9.Text := '';
+     Edit10.Text := '';
+     Edit11.Text := '';
+     Edit12.Text := '';
+
+     SQLQuery3.Close;
+     SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
+     SQLQuery3.Open;
+end;
 
 procedure TForm1.ComboBox1Change(Sender: TObject);
 begin

@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 1752
+  Left = 1426
   Height = 826
-  Top = 246
+  Top = 200
   Width = 1227
   Caption = 'Form1'
-  ClientHeight = 826
-  ClientWidth = 1227
+  ClientHeight = 0
+  ClientWidth = 0
   DesignTimePPI = 120
   OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
@@ -197,6 +197,8 @@ object Form1: TForm1
     Height = 203
     Top = 480
     Width = 928
+    AutoEdit = False
+    AutoFillColumns = True
     Color = clWindow
     Columns = <>
     TabOrder = 11
@@ -232,8 +234,8 @@ object Form1: TForm1
     Left = 950
     Height = 20
     Top = 600
-    Width = 24
-    Caption = 'Prix'
+    Width = 53
+    Caption = 'Prix Min'
     ParentColor = False
     OnClick = Label8Click
   end
@@ -241,8 +243,8 @@ object Form1: TForm1
     Left = 950
     Height = 20
     Top = 640
-    Width = 66
-    Caption = 'Superficie'
+    Width = 56
+    Caption = 'Prix Max'
     ParentColor = False
     OnClick = Label8Click
   end
@@ -292,7 +294,7 @@ object Form1: TForm1
     TabOrder = 16
   end
   object BT_Afficher1: TButton
-    Left = 950
+    Left = 808
     Height = 31
     Top = 696
     Width = 94
@@ -300,6 +302,51 @@ object Form1: TForm1
     OnClick = BT_AfficherClick
     ParentFont = False
     TabOrder = 17
+  end
+  object Label13: TLabel
+    Left = 950
+    Height = 20
+    Top = 680
+    Width = 95
+    Caption = 'Superficie Min'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Edit11: TEdit
+    Left = 1094
+    Height = 28
+    Top = 672
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 18
+  end
+  object Label14: TLabel
+    Left = 950
+    Height = 20
+    Top = 720
+    Width = 98
+    Caption = 'Superficie Max'
+    ParentColor = False
+    OnClick = Label8Click
+  end
+  object Edit12: TEdit
+    Left = 1094
+    Height = 28
+    Top = 712
+    Width = 100
+    OnChange = Edit5Change
+    ParentFont = False
+    TabOrder = 19
+  end
+  object Button1: TButton
+    Left = 808
+    Height = 31
+    Top = 744
+    Width = 94
+    Caption = 'Nettoyer'
+    OnClick = Button1Click
+    TabOrder = 20
   end
   object MySQL56Connection1: TMySQL56Connection
     Connected = True
@@ -328,12 +375,12 @@ object Form1: TForm1
     Database = MySQL56Connection1
     Transaction = SQLTransaction1
     Params = <>
-    left = 450
+    left = 632
     top = 20
   end
   object DataSource1: TDataSource
     DataSet = SQLQuery1
-    left = 610
+    left = 392
     top = 20
   end
   object SQLQuery2: TSQLQuery
@@ -341,7 +388,20 @@ object Form1: TForm1
     Database = MySQL56Connection1
     Transaction = SQLTransaction1
     Params = <>
-    left = 720
+    left = 712
+    top = 20
+  end
+  object DataSource2: TDataSource
+    DataSet = SQLQuery1
+    left = 480
+    top = 20
+  end
+  object SQLQuery3: TSQLQuery
+    FieldDefs = <>
+    Database = MySQL56Connection1
+    Transaction = SQLTransaction1
+    Params = <>
+    left = 784
     top = 20
   end
 end
