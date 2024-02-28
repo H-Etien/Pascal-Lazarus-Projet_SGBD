@@ -43,7 +43,7 @@ object Form4: TForm4
   object Edit2: TEdit
     Left = 1056
     Height = 28
-    Top = 260
+    Top = 264
     Width = 100
     ParentFont = False
     TabOrder = 3

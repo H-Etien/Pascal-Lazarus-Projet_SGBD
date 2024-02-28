@@ -76,11 +76,11 @@ begin
      ShowMessage ('Connexion échouée !'); exit;
     end;
   // Affichage de la table proprietaire dans le 1er DBGrid
-   SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire';
+   SQLQuery1.SQL.Text:= 'SELECT * FROM biens';
    SQLQuery1.Open;
 
    Combobox1.Items.Add('Tous');
-   SQLQuery2.SQL.Text := 'SELECT DISTINCT domicile FROM proprietaire';
+   SQLQuery2.SQL.Text := 'SELECT DISTINCT lieu FROM biens';
    SQLQuery2.Open;
    SQLQuery2.First;
    while(not SQLQuery2.EOF) do
@@ -99,35 +99,34 @@ end;
 
 procedure TForm4.BT_InsertClick(Sender: TObject);
 
-var nom, prenom, domicile, annee_naiss : string;
        begin
+        Edit5.Text := DBGrid1.Columns[0].Field.Text;
+        Edit1.Text := DBGrid1.Columns[1].Field.Text;
+        Edit2.Text := DBGrid1.Columns[2].Field.Text;
+        Edit3.Text := DBGrid1.Columns[3].Field.Text;
+        Edit4.Text := DBGrid1.Columns[4].Field.Text;
 
-         nom := quotedstr(Edit1.Text);
-         prenom := QuotedStr(Edit2.Text);
-         domicile := QuotedStr(Edit3.Text);
-         annee_naiss := Edit4.Text;
-         SQLTransaction1.commit;
-         SQlTransaction1.StartTransaction;
-         MySQL56Connection1.ExecuteDirect('insert into proprietaire(nom,prénom,domicile,année_naiss) values ('+nom+','+prenom+','+domicile+','+annee_naiss+')');
-         SQLTransaction1.Commit;
 
-         RefreshSQLQuery1;
-         RefreshCombobox1;
-         end;
+       end;
 
 
 procedure TForm4.ComboBox1Change(Sender: TObject);
 begin
-       ShowMessage ('Connexion échouée !'); exit;
+        SQLQuery1.Close;
+  if (Combobox1.Text='Tous') then
+     SQLQuery1.SQL.Text:= 'SELECT * FROM biens'
+  else
+     SQLQuery1.SQL.Text:= 'SELECT * FROM biens WHERE lieu="'+ComboBox1.Text+'"';
+  SQLQuery1.Open;
 end;
 
 procedure TForm4.ComboBox1Select(Sender: TObject);
 begin
   SQLQuery1.Close;
   if (Combobox1.Text='Tous') then
-     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire'
+     SQLQuery1.SQL.Text:= 'SELECT * FROM biens'
   else
-     SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire WHERE domicile="'+ComboBox1.Text+'"';
+     SQLQuery1.SQL.Text:= 'SELECT * FROM biens WHERE lieu="'+ComboBox1.Text+'"';
   SQLQuery1.Open;
 
 end;
@@ -162,7 +161,7 @@ end;
 procedure TForm4.RefreshSQLQuery1();
   begin
    SQLQuery1.Close;
-   SQLQuery1.SQL.Text:= 'SELECT * FROM proprietaire';
+   SQLQuery1.SQL.Text:= 'SELECT * FROM biens';
    SQLQuery1.Open;
   end;
 
@@ -170,7 +169,7 @@ procedure TForm4.RefreshCombobox1();
   begin
    Combobox1.Items.Clear;
    Combobox1.Items.Add('Tous');
-   SQLQuery2.SQL.Text := 'SELECT DISTINCT domicile FROM proprietaire';
+   SQLQuery2.SQL.Text := 'SELECT DISTINCT lieu FROM biens';
    SQLQuery2.Open;
    SQLQuery2.First;
    while(not SQLQuery2.EOF) do
