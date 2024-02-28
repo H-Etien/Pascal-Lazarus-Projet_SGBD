@@ -43,6 +43,7 @@ type
     MySQL56Connection1: TMySQL56Connection;
     SQLQuery1: TSQLQuery;
     SQLQuery2: TSQLQuery;
+    SQLQuery3: TSQLQuery;
     SQLTransaction1: TSQLTransaction;
     procedure BT_AfficherClick(Sender: TObject);
     procedure BT_InsertClick(Sender: TObject);
@@ -52,6 +53,7 @@ type
     procedure Edit6Change(Sender: TObject);
     procedure Edit7Change(Sender: TObject);
     procedure Edit8Change(Sender: TObject);
+    procedure Edit9Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Label6Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
@@ -136,15 +138,18 @@ procedure TForm4.Button4Click(Sender: TObject);
           if (prix_augmentation <> '') then
             MySQL56Connection1.ExecuteDirect('set @prix_augmentation=' + prix_augmentation);
           if (prix_diminution <> '') then
-            MySQL56Connection1.ExecuteDirect('set @prix_diminution=' + prix_diminution);
+            MySQL56Connection1.ExecuteDirect('set @prix_diminution= -' + prix_diminution);
           if (prix_augmentation <> '') then
             MySQL56Connection1.ExecuteDirect('call change_prix_bien(@id_bien,@prix_augmentation)')
           else
-             ShowMessage(prix_diminution);
-            MySQL56Connection1.ExecuteDirect('call change_prix_bien(@d_bien,@prix_diminution)');
+            MySQL56Connection1.ExecuteDirect('call change_prix_bien(@id_bien,@prix_diminution)');
 
           SQLTransaction1.Commit;
 
+          SQLQuery3.SQL.Text:= 'SELECT AVG(b.prix) FROM biens b';
+          SQLQuery3.Open;
+
+          Edit9.Text := SQLQuery3.Fields[0].AsString;
 
           RefreshSQLQuery1;
           RefreshComboBox1;
@@ -186,6 +191,11 @@ end;
 procedure TForm4.Edit8Change(Sender: TObject);
 begin
   isButton4canBeEnabled();
+end;
+
+procedure TForm4.Edit9Change(Sender: TObject);
+begin
+
 end;
 
 procedure TForm4.Label6Click(Sender: TObject);
@@ -237,6 +247,7 @@ procedure TForm4.RefreshCombobox1();
    SQLQuery2.Close;
 
   end;
+
 
 procedure TForm4.isButton4canBeEnabled;
           var id_bien, prix_augmentation, prix_diminution :string;

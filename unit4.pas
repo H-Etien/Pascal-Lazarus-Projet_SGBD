@@ -43,6 +43,7 @@ type
     MySQL56Connection1: TMySQL56Connection;
     SQLQuery1: TSQLQuery;
     SQLQuery2: TSQLQuery;
+    SQLQuery3: TSQLQuery;
     SQLTransaction1: TSQLTransaction;
     procedure BT_AfficherClick(Sender: TObject);
     procedure BT_InsertClick(Sender: TObject);
@@ -52,6 +53,7 @@ type
     procedure Edit6Change(Sender: TObject);
     procedure Edit7Change(Sender: TObject);
     procedure Edit8Change(Sender: TObject);
+    procedure Edit9Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Label6Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
@@ -144,6 +146,11 @@ procedure TForm4.Button4Click(Sender: TObject);
 
           SQLTransaction1.Commit;
 
+          SQLQuery3.SQL.Text:= 'SELECT AVG(b.prix) FROM biens b';
+          SQLQuery3.Open;
+
+          //query pour avoir le prix average/moyen des biens dans la table BIENS
+          Edit9.Text := SQLQuery3.Fields[0].AsString;
 
           RefreshSQLQuery1;
           RefreshComboBox1;
@@ -185,6 +192,11 @@ end;
 procedure TForm4.Edit8Change(Sender: TObject);
 begin
   isButton4canBeEnabled();
+end;
+
+procedure TForm4.Edit9Change(Sender: TObject);
+begin
+
 end;
 
 procedure TForm4.Label6Click(Sender: TObject);
@@ -236,6 +248,7 @@ procedure TForm4.RefreshCombobox1();
    SQLQuery2.Close;
 
   end;
+
 
 procedure TForm4.isButton4canBeEnabled;
           var id_bien, prix_augmentation, prix_diminution :string;

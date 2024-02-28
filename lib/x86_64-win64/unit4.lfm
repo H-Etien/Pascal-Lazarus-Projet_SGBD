@@ -4,8 +4,8 @@ object Form4: TForm4
   Top = 316
   Width = 1217
   Caption = 'Form4'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 714
+  ClientWidth = 1217
   DesignTimePPI = 120
   OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
@@ -237,6 +237,7 @@ object Form4: TForm4
     Height = 28
     Top = 536
     Width = 132
+    OnChange = Edit9Change
     TabOrder = 14
   end
   object Label11: TLabel
@@ -293,7 +294,15 @@ object Form4: TForm4
     Database = MySQL56Connection1
     Transaction = SQLTransaction1
     Params = <>
-    left = 808
+    left = 752
+    top = 32
+  end
+  object SQLQuery3: TSQLQuery
+    FieldDefs = <>
+    Database = MySQL56Connection1
+    Transaction = SQLTransaction1
+    Params = <>
+    left = 832
     top = 32
   end
 end
