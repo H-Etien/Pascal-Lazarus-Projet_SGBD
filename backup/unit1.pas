@@ -195,7 +195,7 @@ begin
          Button2.Enabled := False;
 
          SQLQuery3.Close;
-          SQLQuery3.SQL.Text:= requeteSQL;
+          SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
         SQLQuery3.Open;
 end;
 

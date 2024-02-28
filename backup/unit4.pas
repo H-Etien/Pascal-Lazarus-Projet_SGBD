@@ -15,6 +15,7 @@ type
   TForm4 = class(TForm)
     BT_Afficher: TButton;
     BT_Insert: TButton;
+    Button4: TButton;
     ComboBox1: TComboBox;
     DataSource1: TDataSource;
     DBGrid1: TDBGrid;
@@ -24,20 +25,33 @@ type
     Edit3: TEdit;
     Edit4: TEdit;
     Edit5: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
+    Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
     MySQL56Connection1: TMySQL56Connection;
     SQLQuery1: TSQLQuery;
     SQLQuery2: TSQLQuery;
     SQLTransaction1: TSQLTransaction;
     procedure BT_AfficherClick(Sender: TObject);
     procedure BT_InsertClick(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
+    procedure Edit6Change(Sender: TObject);
+    procedure Edit7Change(Sender: TObject);
+    procedure Edit8Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Label6Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
@@ -45,6 +59,7 @@ type
     procedure SQLQuery1AfterPost(DataSet: TDataSet);
     procedure RefreshSQLQuery1();
     procedure RefreshCombobox1();
+    procedure isButton4canBeEnabled();
   private
 
   public
@@ -101,13 +116,40 @@ procedure TForm4.BT_InsertClick(Sender: TObject);
 
        begin
         Edit5.Text := DBGrid1.Columns[0].Field.Text;
-        Edit1.Text := DBGrid1.Columns[1].Field.Text;
-        Edit2.Text := DBGrid1.Columns[2].Field.Text;
-        Edit3.Text := DBGrid1.Columns[3].Field.Text;
-        Edit4.Text := DBGrid1.Columns[4].Field.Text;
+        Edit1.Text := DBGrid1.Columns[2].Field.Text;
+        Edit2.Text := DBGrid1.Columns[3].Field.Text;
+        Edit3.Text := DBGrid1.Columns[4].Field.Text;
+        Edit4.Text := DBGrid1.Columns[5].Field.Text;
 
 
        end;
+
+procedure TForm4.Button4Click(Sender: TObject);
+   var id_bien, prix_augmentation, prix_diminution : string;
+
+   begin
+          id_bien := Edit6.Text;
+          prix_augmentation := Edit7.Text;
+          prix_diminution := Edit8.Text;
+
+          MySQL56Connection1.ExecuteDirect('set @id_bien=' + id_bien);
+          if (prix_augmentation <> '') then
+            MySQL56Connection1.ExecuteDirect('set @prix_augmentation=' + prix_augmentation);
+          if (prix_diminution <> '') then
+            MySQL56Connection1.ExecuteDirect('set @prix_diminution=' + prix_diminution);
+          if (prix_augmentation <> '') then
+            MySQL56Connection1.ExecuteDirect('call change_prix_bien(@id_bien,@prix_augmentation)')
+          else
+             ShowMessage(prix_diminution);
+            MySQL56Connection1.ExecuteDirect('call change_prix_bien(@d_bien,@prix_diminution)');
+
+          SQLTransaction1.Commit;
+
+
+          RefreshSQLQuery1;
+          RefreshComboBox1;
+   end;
+
 
 
 procedure TForm4.ComboBox1Change(Sender: TObject);
@@ -129,6 +171,21 @@ begin
      SQLQuery1.SQL.Text:= 'SELECT * FROM biens WHERE lieu="'+ComboBox1.Text+'"';
   SQLQuery1.Open;
 
+end;
+
+procedure TForm4.Edit6Change(Sender: TObject);
+begin
+     isButton4canBeEnabled();
+end;
+
+procedure TForm4.Edit7Change(Sender: TObject);
+begin
+  isButton4canBeEnabled();
+end;
+
+procedure TForm4.Edit8Change(Sender: TObject);
+begin
+  isButton4canBeEnabled();
 end;
 
 procedure TForm4.Label6Click(Sender: TObject);
@@ -180,6 +237,29 @@ procedure TForm4.RefreshCombobox1();
    SQLQuery2.Close;
 
   end;
+
+procedure TForm4.isButton4canBeEnabled;
+          var id_bien, prix_augmentation, prix_diminution :string;
+begin
+     id_bien := Edit6.Text;
+     prix_augmentation := Edit7.Text;
+     prix_diminution := Edit8.Text;
+
+     if( (prix_augmentation <> '') and (prix_diminution <> '')) then Button4.Enabled := False
+     else Button4.Enabled := True;
+
+     if (id_bien  = '') then Button4.Enabled := False
+     else
+         if (StrToInt(id_bien) <= 0) then Button4.Enabled := False;
+
+     if ((prix_augmentation = '') and (prix_diminution = '')) then Button4.Enabled := False;
+
+     if (prix_augmentation <> '') then
+        if (StrToInt(prix_augmentation) <= 0) then Button4.Enabled := False;
+
+     if (prix_diminution <> '') then
+        if (StrToInt(prix_diminution) <= 0) then Button4.Enabled := False ;
+end;
 
 end.
 

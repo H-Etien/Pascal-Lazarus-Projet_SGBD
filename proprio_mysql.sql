@@ -130,4 +130,17 @@ ALTER TABLE `location`
   ADD CONSTRAINT FOREIGN KEY (`id_bien`) REFERENCES `Biens` (`bien_id`) ON DELETE CASCADE,
   ADD CONSTRAINT FOREIGN KEY (`id_locataire`) REFERENCES `locataires` (`locataire_id`) ON DELETE CASCADE;
 
-
+/*
+DROP PROCEDURE IF EXISTS `change_prix_bien`;
+CREATE PROCEDURE IF NOT EXISTS `change_prix_bien`
+(
+	IN `num_bien` INT, 
+	IN `nvprix` DOUBLE
+) 
+NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER 
+BEGIN
+		UPDATE biens 
+    SET prix = nvprix 
+    WHERE bien_id = num_bien;
+END
+*/
