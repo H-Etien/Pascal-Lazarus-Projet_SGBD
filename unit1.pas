@@ -193,6 +193,10 @@ begin
          Edit4.Text := '';
 
          Button2.Enabled := False;
+
+         SQLQuery3.Close;
+          SQLQuery3.SQL.Text:= 'SELECT p.nom, p.domicile, b.prix, b.lieu, b.superficie FROM `proprietaire` p INNER JOIN `biens` b on b.id_proprio = p.proprio_id';
+        SQLQuery3.Open;
 end;
 
 procedure TForm1.Button3Click(Sender: TObject);
@@ -411,9 +415,9 @@ procedure TForm1.isEditEmptyForAdding;
           (prenom = '')  or
           (domicile = '')  or
           (annee_naiss = '')
-      ) then  BT_Insert.Enabled := False
-   else
-    BT_Insert.Enabled := True;
+          ) then  Button2.Enabled := False
+       else
+        Button2.Enabled := True;
 
   end;
 
@@ -429,9 +433,10 @@ procedure TForm1.isEditEmptyForDelete;
           (prenom = '')  or
           (domicile = '')  or
           (annee_naiss = '')
-      ) then  Button2.Enabled := False
+          ) then  BT_Insert.Enabled := False
    else
-    Button2.Enabled := True;
+    BT_Insert.Enabled := True;
+
 
   end;
 
