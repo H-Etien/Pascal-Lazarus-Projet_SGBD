@@ -12,7 +12,7 @@ Si problème avec
 //unit1.pas(60,5) Error: Identifier not found "Edit1"
 //unit1.pas(61,5) Error: Identifier not found "Edit2"
 
-Il faut préciser le ==TForm== dans la procedure 
+Il faut préciser le ***TForm*** dans la procedure 
 
 > Edit1 and Edit2 exist within the context of the class TForm1. Several instances of this class can exist. Therefore you must always specify the instance to which Edit1 and Edit2 belong. Since your class is probably instantiated as Form1 you must mention Form1.Edit1 and Form1.Edit2.
 
