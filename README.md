@@ -12,10 +12,11 @@ Si problème avec
 //unit1.pas(60,5) Error: Identifier not found "Edit1"
 //unit1.pas(61,5) Error: Identifier not found "Edit2"
 
-Il faut préciser le TForm dans la procedure
-Edit1 and Edit2 exist within the context of the class TForm1. Several instances of this class can exist. Therefore you must always specify the instance to which Edit1 and Edit2 belong. Since your class is probably instantiated as Form1 you must mention Form1.Edit1 and Form1.Edit2.
+Il faut préciser le ==TForm== dans la procedure 
 
-But this is not the recommended way because now your procedure "CreateFile" will only work if your form is named as "Form1". It is much better to make CreateFile a "method" of the class TForm1, i.e. you declare it within TForm1. The form itself "knows" that Edit1 and Edit2 belong to it, and therefore there is not need to specify the form name here. In addition, you should also declare tfOut as a variable of the class because you probably won't need it from outside the form:
+> Edit1 and Edit2 exist within the context of the class TForm1. Several instances of this class can exist. Therefore you must always specify the instance to which Edit1 and Edit2 belong. Since your class is probably instantiated as Form1 you must mention Form1.Edit1 and Form1.Edit2.
+
+> But this is not the recommended way because now your procedure "CreateFile" will only work if your form is named as "Form1". It is much better to make CreateFile a "method" of the class TForm1, i.e. you declare it within TForm1. The form itself "knows" that Edit1 and Edit2 belong to it, and therefore there is not need to specify the form name here. In addition, you should also declare tfOut --as a variable of the class because you probably won't need it from outside the form:
 
 Au lieu de 
 
